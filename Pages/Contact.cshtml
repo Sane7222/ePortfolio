@@ -1,0 +1,55 @@
+﻿@page
+@model ContactModel
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<h2>Contact</h2>
+
+<form id="contact-form">
+    <input type="text" name="_honey" style="display:none">
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" name="Name" class="form-control" id="form-name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" name="Email" class="form-control" id="form-email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Message"></label>
+        <textarea asp-for="Message" name="Message" class="form-control" id="form-message"></textarea>
+        <span asp-validation-for="Message" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts {
+    <script>
+        $('#contact-form').submit( function (event) {
+            event.preventDefault();
+
+            var name = $('#form-name').val();
+            var email = $('#form-email').val();
+            var message = $('#form-message').val();
+
+            $.ajax({
+                url: 'https://formsubmit.co/ajax/6b1cb0b25aa8e9f478552683fc1eb005',
+                method: 'POST',
+                dataType: 'json',
+                accepts: 'application/json',
+                data: {
+                    Name: name,
+                    Email: email,
+                    Message: message
+                }
+            });
+        });
+    </script>
+}

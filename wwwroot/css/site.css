@@ -1,0 +1,133 @@
+﻿:root {
+    --light: #fff;
+    --dark: #333;
+    --navbar-link-hover-bg-light: #ddd;
+    --navbar-link-hover-bg-dark: #777;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    overflow: hidden;
+}
+
+    .navbar a {
+        position: relative;
+        float: left;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+        .navbar a.active::after {
+            content: '';
+            position: absolute;
+            display: inline-block;
+            bottom: 10px;
+            left: 16px;
+            right: 16px;
+            height: 3px;
+        }
+
+/* Style for the options to show/hide on button click */
+#options {
+    display: none;
+}
+
+/* Style for sub-options (languages, frameworks, concepts) */
+.filter-option .sub-options {
+    display: none;
+}
+
+/* Show sub-options on hover */
+.filter-option:hover .sub-options {
+    display: block;
+}
+
+.project-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+    display: inline-block;
+}
+
+.footer {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.social-media-list {
+    padding: 0;
+}
+
+    .social-media-list li {
+        display: inline-block;
+        margin: 0 10px;
+    }
+
+    .social-media-list a {
+        font-size: 20px;
+    }
+
+/* Light Mode */
+.light-mode {
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+        .light-mode .navbar a {
+            color: var(--dark);
+        }
+
+            .light-mode .navbar a:hover {
+                background-color: var(--navbar-link-hover-bg-light);
+            }
+
+            .light-mode .navbar a.active::after {
+                background-color: var(--dark);
+            }
+
+    .light-mode #moonIcon {
+        display: inline-block;
+    }
+
+    .light-mode #sunIcon {
+        display: none;
+    }
+
+    .light-mode .social-media-list a {
+        color: var(--dark);
+    }
+
+/* Dark Mode */
+.dark-mode {
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+        .dark-mode .navbar a {
+            color: var(--light);
+        }
+
+            .dark-mode .navbar a:hover {
+                background-color: var(--navbar-link-hover-bg-dark);
+            }
+
+            .dark-mode .navbar a.active::after {
+                background-color: var(--light);
+            }
+
+    .dark-mode #moonIcon {
+        display: none;
+    }
+
+    .dark-mode #sunIcon {
+        display: inline-block;
+    }
+
+    .dark-mode .social-media-list a {
+        color: var(--light);
+    }

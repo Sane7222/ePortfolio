@@ -1,0 +1,86 @@
+﻿@page
+@model ProjectsModel
+@{
+    ViewData["Title"] = "Projects";
+    var repos = ViewData["CachedRepos"] as List<Repository>;
+    var topics = ViewData["CachedTopics"] as HashSet<string>;
+    var langs = ViewData["CachedLangs"] as HashSet<string>;
+    var frameworks = ViewData["CachedFrames"] as HashSet<string>;
+}
+
+<h2>Projects</h2>
+
+<div id="filters">
+    <button id="filter-options-btn">Filter Projects By</button>
+    <div id="options">
+        <div class="filter-option" data-filter="languages">
+            <span>Languages</span>
+            <div class="sub-options">
+                @if (langs != null) {
+                    @foreach (var lang in langs) {
+                        <span data-type="languages" data-filter="@lang">@lang</span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="filter-option" data-filter="frameworks">
+            <span>Frameworks</span>
+            <div class="sub-options">
+                @if (frameworks != null) {
+                    @foreach (var framework in frameworks) {
+                        <span data-type="frameworks" data-filter="@framework">@framework</span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="filter-option" data-filter="topics">
+            <span>Topics</span>
+            <div class="sub-options">
+                @if (topics != null) {
+                    @foreach (var topic in topics) {
+                        <span data-type="topics" data-filter="@topic">@topic</span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="sub-options">
+            <span data-filter="Reset">Reset</span>
+        </div>
+    </div>
+</div>
+
+<div id="project-grid">
+    @if (repos != null) {
+        foreach (var repo in repos) {
+            <div class="project-card" 
+            data-topics="@string.Join(", ", repo.Topics)" 
+            data-languages="@string.Join(", ", repo.Languages)"
+            data-frameworks="@string.Join(", ", repo.Frameworks)">
+                <h3>@repo.Name</h3>
+                <p>@repo.Description</p>
+                <a href="@repo.Url">View on GitHub</a>
+            </div>
+        }
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Toggling filter options visibility
+        $('#filter-options-btn').click(function () {
+            $('#options').toggle();
+        });
+
+        $('.sub-options span').click(function () {
+            var filter = $(this).data('filter');
+            var type = $(this).data('type');
+            $('.project-card').hide(); // Hide all project cards
+
+            if (filter === 'Reset') {
+                $('.project-card').show(); // Show all projects
+            } else {
+                $('.project-card[data-' + type + '*="' + filter + '"]').show();
+            }
+        });
+    </script>
+}

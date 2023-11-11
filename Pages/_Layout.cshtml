@@ -1,0 +1,63 @@
+﻿@{
+    string isActivePage(string page) {
+        if (Context.Request.Path == "/" + page) {
+            return "active";
+        }
+        return "";
+    }
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - ePortfolio</title>
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <script>
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.add('light-mode');
+        }
+    </script>
+    <header>
+        <nav class="navbar" id="navbar">
+            <a class="@isActivePage("")" asp-page="/Index">Home</a>
+            <a class="@isActivePage("Projects")" asp-page="/Projects">Projects</a>
+            <a class="@isActivePage("Contact")" asp-page="/Contact">Contact</a>
+            <a class="@isActivePage("Error")" asp-page="/Error">Error</a>
+        </nav>
+
+        <button id="darkModeToggle" onclick="toggleDarkMode()">
+            <i class="far fa-moon" id="moonIcon"></i>
+            <i class="fas fa-sun" id="sunIcon"></i>
+        </button>
+    </header>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <ul class="social-media-list">
+                <li><a href="https://www.linkedin.com/in/matias-moseley-52526523a/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                <li><a href="https://github.com/Sane7222" target="_blank"><i class="fab fa-github"></i></a></li>
+            </ul>
+            <p>&copy; @DateTime.Now.Year Matias Moseley. All rights reserved.</p>
+            <p>Powered by .NET 7.0</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
