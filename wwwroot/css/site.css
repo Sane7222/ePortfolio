@@ -1,61 +1,51 @@
 ﻿:root {
-    --light: #fff;
-    --dark: #333;
+    --light: #F5F5F5;
+    --dark: #1F1F1F;
     --navbar-link-hover-bg-light: #ddd;
-    --navbar-link-hover-bg-dark: #777;
+    --navbar-link-hover-bg-dark: #555;
+}
+
+header {
+    font-family: 'Segoe UI', SegoeUI, Arial, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    margin-bottom: 12px;
 }
 
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
+    line-height: 1.6;
+    min-width: 360px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.navbar {
-    overflow: hidden;
+.navbar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
-    .navbar a {
-        position: relative;
-        float: left;
-        padding: 14px 16px;
-        text-decoration: none;
+.nav-link {
+    position: relative;
+    padding: 0.7em 0.85em;
+}
+
+    .navbar a.active::after {
+        content: '';
+        position: absolute;
+        display: inline-block;
+        bottom: 0.5em;
+        left: 0.85em;
+        right: 0.85em;
+        height: 0.2em;
     }
 
-        .navbar a.active::after {
-            content: '';
-            position: absolute;
-            display: inline-block;
-            bottom: 10px;
-            left: 16px;
-            right: 16px;
-            height: 3px;
-        }
-
-/* Style for the options to show/hide on button click */
-#options {
-    display: none;
-}
-
-/* Style for sub-options (languages, frameworks, concepts) */
-.filter-option .sub-options {
-    display: none;
-}
-
-/* Show sub-options on hover */
-.filter-option:hover .sub-options {
-    display: block;
-}
-
-.project-card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    width: 300px;
-    display: inline-block;
+@media screen and (max-width: 576px) {
+    #dark-mode-toggle {
+        margin-right: 0.75em;
+    }
 }
 
 .footer {
-    padding: 20px 0;
+    padding: 1.25em 0;
     text-align: center;
 }
 
@@ -65,11 +55,11 @@ body {
 
     .social-media-list li {
         display: inline-block;
-        margin: 0 10px;
+        margin: 0 0.625em;
     }
 
     .social-media-list a {
-        font-size: 20px;
+        font-size: 1.25em;
     }
 
 /* Light Mode */
@@ -78,23 +68,39 @@ body {
     color: var(--dark);
 }
 
-        .light-mode .navbar a {
-            color: var(--dark);
-        }
-
-            .light-mode .navbar a:hover {
-                background-color: var(--navbar-link-hover-bg-light);
-            }
-
-            .light-mode .navbar a.active::after {
-                background-color: var(--dark);
-            }
-
-    .light-mode #moonIcon {
-        display: inline-block;
+    .light-mode header {
+        background-color: #FCFCFC;
     }
 
-    .light-mode #sunIcon {
+    .light-mode .navbar a {
+        color: var(--dark);
+    }
+
+    .light-mode .navbar a.active {
+        color: var(--dark);
+    }
+
+        .light-mode .navbar a:hover {
+            background-color: var(--navbar-link-hover-bg-light);
+        }
+
+        .light-mode .navbar a.active::after {
+            background-color: var(--dark);
+        }
+
+    .light-mode #dark-mode-toggle {
+        color: var(--dark);
+    }
+
+        .light-mode #dark-mode-toggle:hover {
+            background-color: var(--navbar-link-hover-bg-light);
+        }
+
+    .light-mode #moon {
+        display: inline;
+    }
+
+    .light-mode #sun {
         display: none;
     }
 
@@ -108,24 +114,40 @@ body {
     color: var(--light);
 }
 
-        .dark-mode .navbar a {
-            color: var(--light);
+    .dark-mode header {
+        background-color: #272727;
+    }
+
+    .dark-mode .navbar a {
+        color: var(--light);
+    }
+
+    .dark-mode .navbar a.active {
+        color: var(--light);
+    }
+
+        .dark-mode .navbar a:hover {
+            background-color: var(--navbar-link-hover-bg-dark);
         }
 
-            .dark-mode .navbar a:hover {
-                background-color: var(--navbar-link-hover-bg-dark);
-            }
+        .dark-mode .navbar a.active::after {
+            background-color: var(--light);
+        }
 
-            .dark-mode .navbar a.active::after {
-                background-color: var(--light);
-            }
+    .dark-mode #dark-mode-toggle {
+        color: var(--light);
+    }
 
-    .dark-mode #moonIcon {
+        .dark-mode #dark-mode-toggle:hover {
+            background-color: var(--navbar-link-hover-bg-dark);
+        }
+
+    .dark-mode #moon {
         display: none;
     }
 
-    .dark-mode #sunIcon {
-        display: inline-block;
+    .dark-mode #sun {
+        display: inline;
     }
 
     .dark-mode .social-media-list a {

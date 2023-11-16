@@ -61,12 +61,12 @@ namespace ePortfolio.Pages
                             name
                             description
                             url
-                            languages(first: 10) {
+                            languages(first: 5) {
                                 nodes {
                                     name
                                 }
                             }
-                            repositoryTopics(first: 10) {
+                            repositoryTopics(first: 15) {
                                 nodes {
                                     topic {
                                         name
@@ -93,7 +93,6 @@ namespace ePortfolio.Pages
 
                 if (response.IsSuccessStatusCode) {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"{responseData}");
                     var jsonDocument = JsonDocument.Parse(responseData);
 
                     (repositories, topics, languages, frames) = ParseRepositories(jsonDocument);
@@ -169,15 +168,30 @@ namespace ePortfolio.Pages
         public List<string> Frameworks { get; set; } = new List<string>();
 
         public void ProcessTopics () {
+            Dictionary<string, string> converter = new() {
+                {"graph ql", "Graph QL"},
+                {"ajax", "AJAX"},
+                {"net", "NET"},
+                {"restful", "RESTful"},
+                {"azure", "Azure"},
+                {"jquery", "JQuery"},
+                {"bootstrap", "Bootstrap"}
+            };
+
             for (int i = Topics.Count - 1; i >= 0; i--) {
-                Topics[i] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Topics[i].Replace('-', ' '));
+                Topics[i] = Topics[i].Replace('-', ' ');
 
-                // Check if the topic starts with "Framework"
-                if (Topics[i].StartsWith("Framework", StringComparison.OrdinalIgnoreCase)) {
-                    string framework = Topics[i].Substring("Framework ".Length);
+                // If the topic is a Framework
+                if (Topics[i].StartsWith("fw", StringComparison.OrdinalIgnoreCase)) {
+                    string framework = Topics[i]["fw ".Length..];
 
-                    Frameworks.Add(framework);
-                    Topics.RemoveAt(i);
+                    // Use dictionary to replace Frameworks
+                    if (converter.ContainsKey(framework)) {
+                        Frameworks.Add(converter[framework]);
+                        Topics.RemoveAt(i);
+                    }
+                } else {
+                    Topics[i] = !Topics[i].Equals("api") ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Topics[i]) : "API";
                 }
             }
         }

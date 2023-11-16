@@ -15,7 +15,7 @@ function toggleDarkMode() {
     const body = document.body;
 
     body.classList.toggle('dark-mode'); // Add or remove a class to switch styles
-    body.classList.toggle('light-mode'); // Add or remove a class to switch styles
+    body.classList.toggle('light-mode');
 
     // Store dark mode preference in localStorage
     const isDarkMode = body.classList.contains('dark-mode');
