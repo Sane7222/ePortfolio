@@ -1,17 +1,29 @@
 ﻿
-// Navigation bar functionality
-const navbar = document.getElementById('navbar');
-let links = Array.from(navbar.getElementsByTagName('a'));
-links.forEach(link => {
-    link.addEventListener('click', function () {
-        const current = navbar.getElementsByClassName('active');
-        current[0].className = current[0].className.replace('active', '');
-        this.className += 'active';
-    })
+document.addEventListener('DOMContentLoaded', function () { // Add theme transition after DOM
+    document.querySelector('body').classList.add('transition');
+    document.querySelector('header').classList.add('transition');
+    document.querySelector('#dark-mode-toggle').classList.add('transition');
+    document.querySelectorAll('a').forEach(function (element) {
+        element.classList.add('transition');
+    });
+    document.querySelectorAll('i[class*="media-link"]').forEach(function (element) {
+        element.classList.add('transition');
+    });
 });
 
-// Function to toggle dark mode and persist in localStorage
-function toggleDarkMode() {
+window.addEventListener('beforeunload', function () { // Prevent theme transition on refresh
+    document.querySelector('body').classList.remove('transition');
+    document.querySelector('header').classList.remove('transition');
+    document.querySelector('#dark-mode-toggle').classList.remove('transition');
+    document.querySelectorAll('a').forEach(function (element) {
+        element.classList.remove('transition');
+    });
+    document.querySelectorAll('i[class*="media-link"]').forEach(function (element) {
+        element.classList.remove('transition');
+    });
+});
+
+function toggleDarkMode() { // Manage theme setting in local storage
     const body = document.body;
 
     body.classList.toggle('dark-mode'); // Add or remove a class to switch styles

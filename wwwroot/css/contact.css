@@ -1,0 +1,130 @@
+﻿:root {
+    --dark-purp-btn: #ac99ea;
+}
+
+#_honey {
+    display: none;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+#form-name {
+    float: left;
+    min-width: 48%;
+    margin-right: 4%
+}
+
+#form-email {
+    float: right;
+    min-width: 48%;
+    transition: float 0.3s ease, margin 0.3s ease;
+}
+
+#form-message {
+    clear: both;
+}
+
+@media screen and (max-width: 576px) {
+    #form-name, #form-email {
+        float: none;
+        margin: auto auto 16px auto;
+    }
+}
+
+textarea {
+    resize: none;
+}
+
+.modal-title {
+    margin: auto;
+}
+
+/* Light Mode */
+.light-mode span {
+    color: var(--light-purp);
+}
+
+.light-mode .form-control {
+    color: var(--dark-hover);
+    background-color: var(--light-sec);
+    border-color: var(--light-hover);
+}
+
+    .light-mode .form-control:focus, .light-mode .form-check-input:focus {
+        box-shadow: 0 0 0 0.15rem var(--light-purp);
+    }
+
+.light-mode .form-check-input, .light-mode .form-check-input:active {
+    background-color: var(--light-sec);
+    border-color: var(--light-hover);
+    filter: brightness(100%);
+}
+
+    .light-mode .form-check-input:checked {
+        background-color: var(--light-purp);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-check' viewBox='0 0 16 16'%3E%3Cpath d='M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z'/%3E%3C/svg%3E");
+    }
+
+.light-mode modal {
+    color: var(--dark);
+}
+
+.light-mode .modal-header, .light-mode .modal-footer {
+    background-color: var(--light-sec);
+    border: none;
+}
+
+.light-mode .modal-body {
+    background-color: var(--light);
+}
+
+.light-mode button[type="submit"], .light-mode button[data-bs-dismiss] {
+    color: var(--light);
+    background-color: var(--light-purp);
+}
+
+/* Dark Mode */
+.dark-mode span {
+    color: var(--dark-purp-btn);
+}
+
+.dark-mode .form-control {
+    color: var(--light-hover);
+    background-color: var(--dark-sec);
+    border-color: var(--dark-hover);
+}
+
+    .dark-mode .form-control:focus, .dark-mode .form-check-input:focus {
+        box-shadow: 0 0 0 0.15rem var(--dark-purp);
+    }
+
+.dark-mode .form-check-input, .dark-mode .form-check-input:active {
+    background-color: var(--dark-sec);
+    border-color: var(--dark-hover);
+    filter: brightness(100%);
+}
+
+    .dark-mode .form-check-input:checked {
+        background-color: var(--dark-purp-btn);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='black' class='bi bi-check' viewBox='0 0 16 16'%3E%3Cpath d='M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z'/%3E%3C/svg%3E");
+    }
+
+.dark-mode modal {
+    color: var(--light);
+}
+
+    .dark-mode .modal-header, .dark-mode .modal-footer {
+        background-color: var(--dark-sec);
+        border: none;
+    }
+
+    .dark-mode .modal-body {
+        background-color: var(--dark);
+    }
+
+.dark-mode button[type="submit"], .dark-mode button[data-bs-dismiss] {
+    color: var(--dark);
+    background-color: var(--dark-purp-btn);
+}
