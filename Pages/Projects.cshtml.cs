@@ -19,33 +19,20 @@ namespace ePortfolio.Pages
 
         public async Task OnGet()
         {
-            if (!_cache.TryGetValue("GitHubRepos", out List<Repository>? cachedRepos) ||
-                !_cache.TryGetValue("GitHubTopics", out HashSet<string>? cachedTopics) ||
-                !_cache.TryGetValue("GitHubLangs", out HashSet<string>? cachedLangs) ||
-                !_cache.TryGetValue("GitHubFrames", out HashSet<string>? cachedFrames)) {
-
-                (cachedRepos, cachedTopics, cachedLangs, cachedFrames) = await FetchReposGraphQL();
+            if (!_cache.TryGetValue("GitHubRepos", out List<Repository>? cachedRepos)) {
+                cachedRepos = await FetchReposGraphQL();
 
                 if (cachedRepos != null) {
                     _cache.Set("GitHubRepos", cachedRepos, TimeSpan.FromMinutes(20));
-                    _cache.Set("GitHubTopics", cachedTopics, TimeSpan.FromMinutes(20));
-                    _cache.Set("GitHubLangs", cachedLangs, TimeSpan.FromMinutes(20));
-                    _cache.Set("GitHubFrames", cachedFrames, TimeSpan.FromMinutes(20));
                 }
             }
 
             ViewData["CachedRepos"] = cachedRepos;
-            ViewData["CachedTopics"] = cachedTopics;
-            ViewData["CachedLangs"] = cachedLangs;
-            ViewData["CachedFrames"] = cachedFrames;
         }
 
-        private async Task<(List<Repository>, HashSet<string>, HashSet<string>, HashSet<string>)> FetchReposGraphQL()
+        private async Task<List<Repository>> FetchReposGraphQL()
         {
             List<Repository> repositories = new();
-            List<string> topics = new();
-            List<string> languages = new();
-            List<string> frames = new();
 
             string apiUrl = "https://api.github.com/graphql";
 
@@ -95,67 +82,55 @@ namespace ePortfolio.Pages
                     var responseData = await response.Content.ReadAsStringAsync();
                     var jsonDocument = JsonDocument.Parse(responseData);
 
-                    (repositories, topics, languages, frames) = ParseRepositories(jsonDocument);
-
-                    topics.Sort();
-                    languages.Sort();
-                    frames.Sort();
+                    repositories = ParseRepositories(jsonDocument);
                 }
             }
-            return (repositories, new HashSet<string>(topics), new HashSet<string>(languages), new HashSet<string>(frames));
+            return repositories;
         }
 
-        private static (List<Repository>, List<string>, List<string>, List<string>) ParseRepositories(JsonDocument jsonDocument)
+        private static List<Repository> ParseRepositories(JsonDocument jsonDocument)
         {
             List<Repository> repositories = new();
-            List<string> topics = new();
-            List<string> languages = new();
-            List<string> frames = new();
 
-            // Extract repository information from the JSON response
-            var repoNodes = jsonDocument.RootElement
-                .GetProperty("data")
-                .GetProperty("viewer")
-                .GetProperty("repositories")
-                .GetProperty("nodes");
+            HashSet<string> filters = new() {
+                "web-development",
+                "back-end-development",
+                "data-science",
+                "cloud"
+            };
+
+            var repoNodes = jsonDocument.RootElement.GetProperty("data").GetProperty("viewer").GetProperty("repositories").GetProperty("nodes");
 
             foreach (var node in repoNodes.EnumerateArray()) {
-                var repo = new Repository {
-                    Name = node.GetProperty("name").ToString(),
-                    Description = node.GetProperty("description").ToString(),
-                    Url = node.GetProperty("url").ToString(),
-                    Languages = node.GetProperty("languages")
-                        .GetProperty("nodes")
-                        .EnumerateArray()
-                        .Select(langNode => langNode.GetProperty("name").ToString())
-                        .ToList(),
-                    Topics = node.GetProperty("repositoryTopics")
-                        .GetProperty("nodes")
-                        .EnumerateArray()
-                        .Select(topicNode => topicNode.GetProperty("topic").GetProperty("name").ToString())
-                        .ToList(),
-                };
 
-                repo.ProcessTopics();
+                var topicNodes = node.GetProperty("repositoryTopics").GetProperty("nodes");
 
-                foreach (var topic in repo.Topics) {
-                    topics.Add(topic);
-                }
+                foreach (var topic in topicNodes.EnumerateArray()) {
+                    if (filters.Contains(topic.GetProperty("topic").GetProperty("name").ToString())) {
+                        var repo = new Repository {
+                            Name = node.GetProperty("name").ToString(),
+                            Description = node.GetProperty("description").ToString(),
+                            Url = node.GetProperty("url").ToString(),
+                            Languages = node.GetProperty("languages")
+                            .GetProperty("nodes")
+                            .EnumerateArray()
+                            .Select(langNode => langNode.GetProperty("name").ToString())
+                            .ToList(),
+                            Topics = node.GetProperty("repositoryTopics")
+                            .GetProperty("nodes")
+                            .EnumerateArray()
+                            .Select(topicNode => topicNode.GetProperty("topic").GetProperty("name").ToString())
+                            .ToList(),
+                        };
 
-                foreach (var language in repo.Languages) {
-                    if (language != "Makefile") {
-                        languages.Add(language);
+                        repo.ProcessName();
+                        repo.ProcessTopics();
+                        repositories.Add(repo);
+                        break;
                     }
                 }
-
-                foreach (var frame in repo.Frameworks) {
-                    frames.Add(frame);
-                }
-
-                repositories.Add(repo);
             }
-
-            return (repositories, topics, languages, frames);
+            return repositories;
         }
     }
 
@@ -165,34 +140,14 @@ namespace ePortfolio.Pages
         public required string Description { get; set; } = string.Empty;
         public required List<string> Languages { get; set; } = new List<string>();
         public required List<string> Topics { get; set; } = new List<string>();
-        public List<string> Frameworks { get; set; } = new List<string>();
+
+        public void ProcessName () {
+            Name = Name.Replace('-', ' ');
+        }
 
         public void ProcessTopics () {
-            Dictionary<string, string> converter = new() {
-                {"graph ql", "Graph QL"},
-                {"ajax", "AJAX"},
-                {"net", "NET"},
-                {"restful", "RESTful"},
-                {"azure", "Azure"},
-                {"jquery", "JQuery"},
-                {"bootstrap", "Bootstrap"}
-            };
-
-            for (int i = Topics.Count - 1; i >= 0; i--) {
-                Topics[i] = Topics[i].Replace('-', ' ');
-
-                // If the topic is a Framework
-                if (Topics[i].StartsWith("fw", StringComparison.OrdinalIgnoreCase)) {
-                    string framework = Topics[i]["fw ".Length..];
-
-                    // Use dictionary to replace Frameworks
-                    if (converter.ContainsKey(framework)) {
-                        Frameworks.Add(converter[framework]);
-                        Topics.RemoveAt(i);
-                    }
-                } else {
-                    Topics[i] = !Topics[i].Equals("api") ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Topics[i]) : "API";
-                }
+            for (int i = 0; i < Topics.Count; i++) {
+                Topics[i] = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(Topics[i].Replace('-', ' '));
             }
         }
     }

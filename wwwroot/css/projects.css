@@ -1,19 +1,74 @@
-﻿#options {
-    display: none;
+﻿:root {
+    --uni-border: #C8C8C8;
 }
 
-.filter-option .sub-options {
-    display: none;
+.card {
+    padding: 5px;
+    border: none;
 }
 
-.filter-option:hover .sub-options {
-    display: block;
+.card-body {
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
 }
 
-.project-card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    width: 300px;
-    display: inline-block;
+a {
+    text-decoration: none;
+}
+
+.media-left {
+    float: left;
+    padding: 15px 0 15px 15px;
+}
+
+.media-body {
+    float: left;
+    padding: 15px 0 15px 15px;
+    margin-left: 20px;
+    margin-top: 6px;
+}
+
+/* Light Mode */
+.light-mode .card {
+    color: var(--dark);
+    background-color: var(--light);
+}
+
+.light-mode .card-body {
+    border-color: var(--uni-border);
+}
+
+    .light-mode .card-body:hover {
+        border-color: var(--light-purp);
+    }
+
+.light-mode a {
+    color: var(--dark);
+}
+
+.light-mode .media-left {
+    color: var(--light-purp);
+}
+
+/* Dark Mode */
+.dark-mode .card {
+    color: var(--light);
+    background-color: var(--dark);
+}
+
+.dark-mode .card-body {
+    border-color: var(--uni-border);
+}
+
+    .dark-mode .card-body:hover {
+        border-color: var(--dark-purp);
+    }
+
+.dark-mode a {
+    color: var(--light);
+}
+
+.dark-mode .media-left {
+    color: var(--dark-purp);
 }
