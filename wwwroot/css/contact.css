@@ -41,6 +41,11 @@ textarea {
     margin: auto;
 }
 
+button[type="submit"], button[data-bs-dismiss] {
+    font-family: "Segoe UI";
+    font-weight: 500;
+}
+
 /* Light Mode */
 .light-mode span {
     color: var(--light-purp);

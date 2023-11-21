@@ -3,10 +3,12 @@
     --light-sec: #FCFCFC;
     --light-hover: #ddd;
     --light-purp: #512bd4;
+    --light-purp-hover: #4122AA;
     --dark: #1F1F1F;
     --dark-sec: #272727;
     --dark-hover: #555;
     --dark-purp: #9780e5;
+    --dark-purp-hover: #B9AAEE;
     --gradient-light: linear-gradient(128.87deg,#512bd4 14.05%,#d600aa 89.3%);
     --gradient-dark: linear-gradient(128.87deg, #e666cc 14.05%, #9780e5 89.3%);
 }
@@ -17,6 +19,10 @@
         border-color 0.1s linear,
         color 0.05s linear,
         background-image 0.1s linear;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
 }
 
 body {
@@ -48,7 +54,7 @@ header {
         left: 0.85em;
         right: 0.85em;
         height: 0.2em;
-        transition: background-color 0.3s ease;
+        transition: background-color 0.1s ease;
     }
 
 @media screen and (max-width: 576px) {
@@ -91,6 +97,18 @@ h1 {
     color: var(--dark);
 }
 
+    .light-mode::-webkit-scrollbar-track {
+        background: var(--light);
+    }
+
+    .light-mode::-webkit-scrollbar-thumb {
+        background: #BBBBBB;
+    }
+
+        .light-mode::-webkit-scrollbar-thumb:hover {
+            background: #999999;
+        }
+
     .light-mode header {
         background-color: var(--light-sec);
     }
@@ -102,6 +120,10 @@ h1 {
 
     .light-mode a {
         color: var(--light-purp);
+    }
+
+    .light-mode a:hover {
+        color: var(--light-purp-hover);
     }
 
     .light-mode .navbar a {
@@ -146,6 +168,18 @@ h1 {
     color: var(--light);
 }
 
+    .dark-mode::-webkit-scrollbar-track {
+        background: var(--dark);
+    }
+
+    .dark-mode::-webkit-scrollbar-thumb {
+        background: #474747;
+    }
+
+        .dark-mode::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-hover);
+        }
+
     .dark-mode header {
         background-color: var(--dark-sec);
     }
@@ -157,6 +191,10 @@ h1 {
 
     .dark-mode a {
         color: var(--dark-purp);
+    }
+
+    .dark-mode a:hover {
+        color: var(--dark-purp-hover);
     }
 
     .dark-mode .navbar a {

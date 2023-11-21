@@ -1,40 +1,12 @@
-﻿section p {
-    display: none;
+﻿h4 {
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 1.75rem;
 }
 
-h4 {
-    position: relative;
-    text-align: center;
-    font-size: 1.35rem;
+.internal {
+    text-decoration: none;
 }
 
-@media screen and (max-width: 991px) {
-    h4 {
-        font-size: 1.28rem;
-    }
-}
-
-@media screen and (max-width: 767px) {
-    h4 {
-        font-size: 1.2rem;
-    }
-}
-
-span::before {
-    content: '';
-    position: absolute;
-    top: 0.15em;
-    width: 0.0625rem;
-    height: 0.9em;
-    transition: background-color 0.3s ease;
-}
-
-/* Light Mode */
-.light-mode span::before {
-    background-color: var(--dark);
-}
-
-/* Dark Mode */
-.dark-mode span::before {
-    background-color: var(--light);
+.dark-mode h4::after {
+    background: var(--gradient-dark);
 }

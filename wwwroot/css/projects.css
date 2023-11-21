@@ -43,7 +43,7 @@ a {
         border-color: var(--light-purp);
     }
 
-.light-mode a {
+.light-mode a, .light-mode a:hover {
     color: var(--dark);
 }
 
@@ -65,7 +65,7 @@ a {
         border-color: var(--dark-purp);
     }
 
-.dark-mode a {
+.dark-mode a, .dark-mode a:hover {
     color: var(--light);
 }
 
