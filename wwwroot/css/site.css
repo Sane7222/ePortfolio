@@ -1,16 +1,16 @@
 ﻿:root {
     --light: #F5F5F5;
-    --light-sec: #FCFCFC;
-    --light-hover: #ddd;
-    --light-purp: #512bd4;
+    --light-sec: #FDFDFD;
+    --light-hover: #BBB;
+    --light-purp: #512BD4;
     --light-purp-hover: #4122AA;
     --dark: #1F1F1F;
     --dark-sec: #272727;
     --dark-hover: #555;
-    --dark-purp: #9780e5;
+    --dark-purp: #9780E5;
     --dark-purp-hover: #B9AAEE;
-    --gradient-light: linear-gradient(128.87deg,#512bd4 14.05%,#d600aa 89.3%);
-    --gradient-dark: linear-gradient(128.87deg, #e666cc 14.05%, #9780e5 89.3%);
+    --gradient-light: linear-gradient(128.87deg,#512BD4 14.05%,#D600AA 89.3%);
+    --gradient-dark: linear-gradient(128.87deg, #E666CC 14.05%, #9780E5 89.3%);
 }
 
 .transition {
@@ -44,6 +44,7 @@ header {
 .nav-link {
     position: relative;
     padding: 0.7em 0.85em;
+    border-radius: 6px;
 }
 
     .navbar a.active::after {
@@ -60,6 +61,9 @@ header {
 @media screen and (max-width: 576px) {
     #dark-mode-toggle {
         margin-right: 0.75em;
+    }
+    .navbar-nav {
+        margin-left: 0.75em;
     }
 }
 

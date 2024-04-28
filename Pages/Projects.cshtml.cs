@@ -10,7 +10,7 @@ namespace ePortfolio.Pages
             _cache = APIClient.Cache;
         }
 
-        public async void OnGet() {
+        public async Task OnGet() {
             await APIClient.OnGet();
             ViewData["CachedRepos"] = _cache.Get("GitHubRepos");
         }

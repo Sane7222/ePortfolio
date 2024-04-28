@@ -1,6 +1,6 @@
 ﻿@{
     string isActivePage(string page) {
-        if (Context.Request.Path == "/" + page) {
+        if (Context.Request.Path == $"/{page}") {
             return "active";
         }
         return "";

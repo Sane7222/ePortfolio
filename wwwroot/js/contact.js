@@ -21,13 +21,16 @@ $(document).ready(function () {
                     Name: $('#Name').val(),
                     Email: $('#Email').val(),
                     Message: $('#Message').val()
+                },
+                success: function (response) {
+                    setHeader('Success');
+                },
+                error: function (xhr, status, error) {
+                    window.location.href = "https://matias-moseley.azurewebsites.net/Error";
                 }
             });
 
-            $('h1').slideUp(1000, function () {
-                $(this).text('Success').slideDown(1000, function () { });
-            })
-
+            setHeader('Processing');
             $('#contact-form').slideUp(1000, function () { });
         } else {
             form.classList.add('was-validated');
@@ -41,3 +44,9 @@ $(window).on('beforeunload', function () {
     $('span').removeClass('transition');
     $('button[type="submit"]').removeClass('transition');
 });
+
+function setHeader(text) {
+    $('h1').slideUp(1000, function () {
+        $(this).text(text).slideDown(1000, function () { });
+    })
+}
