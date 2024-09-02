@@ -1,10 +1,5 @@
 ﻿
 $(document).ready(function () {
-    $('.form-control').addClass('transition'); // Add theme transition after DOM
-    $('.form-check-input').addClass('transition');
-    $('span').addClass('transition');
-    $('button[type="submit"]').addClass('transition');
-
     $('#contact-form').submit(function (event) { // AJAX form submission
         event.preventDefault();
 
@@ -23,14 +18,14 @@ $(document).ready(function () {
                     Message: $('#Message').val()
                 },
                 success: function (response) {
-                    setHeader('Success');
+                    SetHeader('Success');
                 },
                 error: function (xhr, status, error) {
                     window.location.href = "https://matias-moseley.azurewebsites.net/Error";
                 }
             });
 
-            setHeader('Processing');
+            SetHeader('Processing');
             $('#contact-form').slideUp(1000, function () { });
         } else {
             form.classList.add('was-validated');
@@ -38,14 +33,7 @@ $(document).ready(function () {
     });
 });
 
-$(window).on('beforeunload', function () {
-    $('.form-control').removeClass('transition'); // Prevent theme transition on refresh
-    $('.form-check-input').removeClass('transition');
-    $('span').removeClass('transition');
-    $('button[type="submit"]').removeClass('transition');
-});
-
-function setHeader(text) {
+function SetHeader(text) {
     $('h1').slideUp(1000, function () {
         $(this).text(text).slideDown(1000, function () { });
     })

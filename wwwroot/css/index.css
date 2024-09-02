@@ -12,7 +12,3 @@ p {
 .internal {
     text-decoration: none;
 }
-
-.dark-mode h4::after {
-    background: var(--gradient-dark);
-}

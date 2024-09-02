@@ -4,23 +4,21 @@ using System.Text;
 
 namespace ePortfolio
 {
-    public static class APIClient {
-        private static readonly IMemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
-        private static readonly IConfiguration _configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+    public class APIClient(IMemoryCache cache, Settings settings) {
+        private IMemoryCache Cache = cache;
+        private readonly Settings _settings = settings;
 
-        public static IMemoryCache Cache { get { return _cache; } }
-
-        public static async Task OnGet() {
-            if (!_cache.TryGetValue("GitHubRepos", out List<Repository>? _)) {
+        public async Task OnGet() {
+            if (!Cache.TryGetValue("GitHubRepos", out List<Repository>? _)) {
                 await FetchReposGraphQL();
             }
         }
 
-        private static async Task FetchReposGraphQL() {
+        private async Task FetchReposGraphQL() {
             string url = "https://api.github.com/graphql";
 
             // Your GitHub Personal Access Token
-            string? token = _configuration["MyConfig:ApiKey"];
+            string? token = _settings.Token;
 
             // GraphQL query to get user's repositories
             string query = @"
@@ -63,15 +61,15 @@ namespace ePortfolio
             }
         }
 
-        private  static void ParseRepositories(JsonDocument jsonDocument) {
-            List<Repository> repositories = new();
+        private void ParseRepositories(JsonDocument jsonDocument) {
+            List<Repository> repositories = [];
 
-            HashSet<string> filters = new() {
+            HashSet<string> filters = [
                 "web-development",
                 "back-end-development",
                 "data-science",
                 "cloud"
-            };
+            ];
 
             var repoNodes = jsonDocument.RootElement.GetProperty("data").GetProperty("viewer").GetProperty("repositories").GetProperty("nodes");
 
@@ -95,7 +93,7 @@ namespace ePortfolio
                     }
                 }
             }
-            _cache.Set("GitHubRepos", repositories, TimeSpan.FromMinutes(20));
+            Cache.Set("GitHubRepos", repositories, TimeSpan.FromMinutes(20));
         }
     }
 

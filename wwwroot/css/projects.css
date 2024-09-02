@@ -1,8 +1,6 @@
-﻿:root {
-    --uni-border: #C8C8C8;
-}
-
-.card {
+﻿.card {
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
     padding: 5px;
     border: none;
 }
@@ -11,15 +9,25 @@
     border-width: 2px;
     border-style: solid;
     border-radius: 20px;
+    border-color: var(--border);
 }
 
-a {
+    .card-body:hover {
+        border-color: var(--purp);
+    }
+
+a, a:hover {
     text-decoration: none;
+    color: var(--bs-body-color);
 }
 
 .media-left {
     float: left;
-    padding: 15px 0 15px 15px;
+    padding: 12px 0 15px 15px;
+}
+
+.svg-filter {
+    filter: var(--purp-filter);
 }
 
 .media-body {
@@ -27,48 +35,4 @@ a {
     padding: 15px 0 15px 15px;
     margin-left: 20px;
     margin-top: 6px;
-}
-
-/* Light Mode */
-.light-mode .card {
-    color: var(--dark);
-    background-color: var(--light);
-}
-
-.light-mode .card-body {
-    border-color: var(--uni-border);
-}
-
-    .light-mode .card-body:hover {
-        border-color: var(--light-purp);
-    }
-
-.light-mode a, .light-mode a:hover {
-    color: var(--dark);
-}
-
-.light-mode .media-left {
-    color: var(--light-purp);
-}
-
-/* Dark Mode */
-.dark-mode .card {
-    color: var(--light);
-    background-color: var(--dark);
-}
-
-.dark-mode .card-body {
-    border-color: var(--uni-border);
-}
-
-    .dark-mode .card-body:hover {
-        border-color: var(--dark-purp);
-    }
-
-.dark-mode a, .dark-mode a:hover {
-    color: var(--light);
-}
-
-.dark-mode .media-left {
-    color: var(--dark-purp);
 }

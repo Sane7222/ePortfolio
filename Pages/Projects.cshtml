@@ -15,13 +15,15 @@
 <div id="project-grid" class="row">
     @if (repos != null) {
         int i = 0;
-        int[] order = new int[] { 1, 3, 2, 4, 0, 0 };
-        string[] icons = new string[] { "file-earmark-binary", "database", "bezier2", "diagram-3", "globe2", "bug" };
+        int[] order = new int[] { 3, 5, 4, 1, 2, 0 };
+        string[] icons = new string[] { "file-earmark-binary", "database", "bezier2", "globe2", "bug", "envelope" };
         foreach (var repo in repos) {
-            <div class="card col-lg-4 col-md-6 col-12 order-@order[i]">
+            string path = $"/images/{icons[i]}.svg";
+
+            <div class="card col-lg-4 col-md-6 col-12 order-@order[i++]">
                 <a href="@repo.Url" target="_blank" class="card-body">
                     <div class="media-left col-1">
-                        <i class="bi bi-@icons[i++] fs-3"></i>
+                        <i class="bi fs-3"><img src="@path" class="svg-filter" alt="img" width="28" height="28" /></i>
                     </div>
                     <div class="media-body col-10">
                         <h3 class="card-title">@repo.Name</h3>
@@ -32,7 +34,3 @@
         }
     }
 </div>
-
-@section Scripts {
-    <script src="~/js/projects.js" asp-append-version="true"></script>
-}

@@ -1,35 +1,40 @@
-﻿
-document.addEventListener('DOMContentLoaded', function () { // Add theme transition after DOM
-    document.querySelector('body').classList.add('transition');
-    document.querySelector('header').classList.add('transition');
-    document.querySelector('#dark-mode-toggle').classList.add('transition');
-    document.querySelectorAll('a').forEach(function (element) {
-        element.classList.add('transition');
-    });
-    document.querySelectorAll('i[class*="media-link"]').forEach(function (element) {
-        element.classList.add('transition');
-    });
+﻿document.addEventListener('DOMContentLoaded', function () {
+    UsePreferredTheme();
 });
 
-window.addEventListener('beforeunload', function () { // Prevent theme transition on refresh
-    document.querySelector('body').classList.remove('transition');
-    document.querySelector('header').classList.remove('transition');
-    document.querySelector('#dark-mode-toggle').classList.remove('transition');
-    document.querySelectorAll('a').forEach(function (element) {
-        element.classList.remove('transition');
-    });
-    document.querySelectorAll('i[class*="media-link"]').forEach(function (element) {
-        element.classList.remove('transition');
-    });
-});
+function ToggleTheme() {
+    var theme = GetTheme();
+    const alt = theme === 'light' ? 'dark' : 'light'
+    UseTheme(alt);
+    SetSwitch(alt);
+}
 
-function toggleDarkMode() { // Manage theme setting in local storage
-    const body = document.body;
+function UseTheme(theme) {
+    SetTheme(theme);
+    document.documentElement.setAttribute('data-bs-theme', theme);
+}
 
-    body.classList.toggle('dark-mode'); // Add or remove a class to switch styles
-    body.classList.toggle('light-mode');
+function GetTheme() {
+    return localStorage.getItem('theme');
+}
 
-    // Store dark mode preference in localStorage
-    const isDarkMode = body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDarkMode);
+function SetTheme(theme) {
+    localStorage.setItem('theme', theme);
+    document.cookie = `Theme=${theme}; path=/`;
+}
+
+function UsePreferredTheme() {
+    var theme = GetTheme();
+    if (theme == null) {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    UseTheme(theme);
+    SetSwitch(theme);
+}
+
+function SetSwitch(theme) {
+    const light = theme === 'dark' ? false : true;
+    document.getElementById('sun').style.display = light ? 'none' : 'inline';
+    document.getElementById('moon').style.display = light ? 'inline' : 'none';
 }
